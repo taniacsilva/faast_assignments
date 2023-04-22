@@ -32,7 +32,6 @@ jobs:
     - name: Lint with pylint
       run: |
         pylint life_expectancy.cleaning
-        continue-on-error: true
     - name: Test with pytest
       run: |
         pytest life_expectancy --cov

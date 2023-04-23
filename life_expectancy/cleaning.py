@@ -1,9 +1,9 @@
 """ This module cleans the data"""
+
 import argparse
 from pathlib import Path
 import pandas as pd
 import numpy as np
-
 
 
 def clean_data(
@@ -15,9 +15,11 @@ def clean_data(
     unpivot the years to long format,
     ensure year is an integer and value is a float type
     and by saving the data to a csv format file
-    :param region: String with region information
+    Args:
+        region (str): String with region information
 
-    :return: DataFrame with life expectancy cleaned data
+    Returns: 
+        life_exp (Pandas DataFrame): DataFrame with life expectancy cleaned data
     """
 
     # Load eu_life_expectancy_raw.tsv data from the data folder

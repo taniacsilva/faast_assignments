@@ -56,8 +56,8 @@ def clean_data(
     life_exp = life_exp.dropna(subset=["value"])
 
     # Save the resulting data frame to the data folder as pt_life_expectancy.csv
-    #life_exp.to_csv(script_dir / "data"/ "pt_life_expectancy.csv", index=False)
-    life_exp.to_csv('life_expectancy/data/pt_life_expectancy.csv', index = False)
+    life_exp.to_csv(script_dir / "data"/ "pt_life_expectancy.csv", index=False)
+
     return life_exp
 
 

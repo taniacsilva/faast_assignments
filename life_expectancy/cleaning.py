@@ -13,7 +13,7 @@ def load_data() -> pd.DataFrame:
         life_exp_raw_data(Pandas DataFrame): DataFrame with data to be cleaned
     """
     script_dir = Path(__file__).resolve().parent
-    file_path = script_dir / "data"/ "eu_life_expectancy_raw.tsv"
+    file_path = script_dir/"data"/"eu_life_expectancy_raw.tsv"
 
     with open(file_path, "r", encoding="UTF-8") as file:
         life_exp_raw_data = pd.read_csv(file, sep="\t")
@@ -42,7 +42,7 @@ def clean_data(
     life_exp_raw_data[columns] = (life_exp_raw_data.iloc[:,0].str.split(',', expand = True))
     life_exp = life_exp_raw_data.drop(columns=life_exp_raw_data.columns[0])
 
-    # Filters only the data where region equal to PT
+    # Filters only the data for the region selected
     life_exp = life_exp.loc[life_exp["region"] == region]
 
     # Unpivot the years to long format
@@ -55,9 +55,10 @@ def clean_data(
     # Ensure year is an int
     life_exp["year"] = life_exp["year"].str.replace(" ", "").astype(int)
 
-    # Ensure value is a float
+    # Remove letters, whitespaces and replace ":" by NaN
     life_exp["value"] = life_exp["value"].str.replace(r"[a-zA-Z\s]+", "",  regex=True)
     life_exp["value"] = life_exp["value"].replace(":", np.NaN)
+    # Ensure value is a float and drop NA values
     life_exp["value"] = life_exp["value"].astype(float)
     life_exp = life_exp.dropna(subset=["value"])
 
@@ -73,12 +74,14 @@ def save_data (
         life_exp (Pandas DataFrame): DataFrame with life expectancy cleaned data
     """
     script_dir = Path(__file__).resolve().parent
-    life_exp.to_csv(script_dir / "data"/ "pt_life_expectancy.csv", index=False)
+    life_exp.to_csv(script_dir/"data"/"pt_life_expectancy.csv", index=False)
 
 
 def main(region: str = 'PT') -> None:
     """
     Main function that load, cleans and save a cleaned version of the life expectancy data
+    Args:
+        region (str): String with region information
     """
     life_exp_raw_data = load_data()
     life_exp = clean_data(life_exp_raw_data, region)

@@ -46,4 +46,3 @@ def clean_data(
     life_exp = life_exp.dropna(subset=["value"])
 
     return life_exp
-

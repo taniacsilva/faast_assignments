@@ -25,7 +25,7 @@ def pt_life_expectancy_expected() -> pd.DataFrame:
     return pd.read_csv(FIXTURES_DIR / "pt_life_expectancy_expected.csv")
 
 @pytest.fixture()
-def eu_life_expectancy_raw_expected() -> pd.DataFrame:
+def eu_life_expectancy_input_expected() -> pd.DataFrame:
     """Fixture to load the expected raw data"""
     return pd.read_csv(FIXTURES_DIR / "eu_life_expectancy_raw.tsv", sep="\t")
 

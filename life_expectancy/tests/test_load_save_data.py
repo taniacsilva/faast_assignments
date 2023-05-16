@@ -12,7 +12,7 @@ from life_expectancy.load_save_data import load_data, save_data
 script_dir = Path(__file__).resolve().parent
 
 
-def test_load_data(eu_life_expectancy_raw_expected, input_file_path_test) -> None:
+def test_load_data(eu_life_expectancy_input_expected, input_file_path_test) -> None:
     """Run the `load_data` function and compare the raw data loaded to the expected raw data loaded
         Args:
             eu_life_expectancy_raw_expected (Fixture): load the expected raw data
@@ -20,10 +20,10 @@ def test_load_data(eu_life_expectancy_raw_expected, input_file_path_test) -> Non
         Returns: 
     """
     # Call the load_data function and get the result
-    eu_life_expectancy_raw_actual = load_data(input_file_path_test)
+    eu_life_expectancy_input_actual = load_data(input_file_path_test)
 
     pd.testing.assert_frame_equal(
-        eu_life_expectancy_raw_actual, eu_life_expectancy_raw_expected
+        eu_life_expectancy_input_actual, eu_life_expectancy_input_expected
     )
 
 

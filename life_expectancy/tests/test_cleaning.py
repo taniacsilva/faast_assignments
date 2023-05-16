@@ -13,14 +13,14 @@ def test_cleaning(pt_life_expectancy_expected, eu_life_expectancy_raw_expected):
         Returns:
     """
     # Call the clean_data function and get the result
-    clean_data_actual = clean_data(
+    clean_data_output_actual = clean_data(
         eu_life_expectancy_raw_expected,
         region = 'PT'
     ).reset_index(drop=True)
 
-    clean_data_expected = pt_life_expectancy_expected
+    clean_data_output_expected = pt_life_expectancy_expected
 
     pd.testing.assert_frame_equal(
-        clean_data_actual, clean_data_expected
+        clean_data_output_actual, clean_data_output_expected
     )
            

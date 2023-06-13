@@ -21,13 +21,13 @@ def main(region: Regions = Regions.PT) -> pd.DataFrame:
     # Verify if the region is in the list of Contries and Regions
     if region.value not in Regions.__members__:
         raise ValueError("This is an Invalid Country")
-    
+
     file_reader = JSONFileReader()
     file_processor = FileProcessor(file_reader)
     life_exp_raw_data = file_processor.processor_file(input_file_path_json)
 
     if isinstance(file_reader, TSVFileReader):
-        life_exp = clean_data(life_exp_raw_data) 
+        life_exp = clean_data(life_exp_raw_data)
     else:
         life_exp = feature_cleaning(life_exp_raw_data)
 

@@ -76,7 +76,7 @@ class Regions(Enum):
             'EU27_2007',
             'EEA30_2007'
             ]
-        
+
         return [item.value for item in Regions if item.value not in regions_only]
 
 
@@ -95,7 +95,7 @@ def clean_data (life_exp_raw_data: pd.DataFrame):
 
     life_exp_raw_data[columns] = life_exp_raw_data[column_split].str.split(',', expand = True)
     life_exp = life_exp_raw_data.drop(columns=[column_split])
-    
+
     # Unpivot the years to long format
     life_exp = life_exp.melt(
         id_vars = columns,

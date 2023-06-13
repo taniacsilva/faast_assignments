@@ -1,8 +1,7 @@
 """ This module cleans the data"""
-
+from enum import Enum
 import pandas as pd
 import numpy as np
-from enum import Enum
 
 class Regions(Enum):
     """Represents the Countries and Regions that exist in the raw dataset"""
@@ -53,7 +52,7 @@ class Regions(Enum):
     SM = 'SM'
     RU = 'RU'
     XK = 'XK'
-    EFTA = 'EFTA' 
+    EFTA = 'EFTA'
     EA18 = 'EA18'
     EA19 = 'EA19'
     EU28 = 'EU28'
@@ -66,7 +65,17 @@ class Regions(Enum):
     @staticmethod
     def obtain_countries_list():
         "Return list of actual countries"
-        regions_only = ['EFTA' , 'EA18', 'EA19', 'EU28', 'EEA31', 'DE_TOT', 'EU27_2020', 'EU27_2007', 'EEA30_2007']
+        regions_only = [
+            'EFTA',
+            'EA18',
+            'EA19',
+            'EU28',
+            'EEA31',
+            'DE_TOT',
+            'EU27_2020',
+            'EU27_2007',
+            'EEA30_2007'
+            ]
         
         return [item.value for item in Regions if item.value not in regions_only]
 
@@ -76,7 +85,7 @@ def clean_data (life_exp_raw_data: pd.DataFrame):
     Cleans the life expectancy data by unpivot the years to long format and
     ensure year is an integer and value is a float type
     Args:
-        life_exp(Pandas DataFrame): DataFrame with data filtered by region to be cleaned
+        life_exp_raw_data(Pandas DataFrame): DataFrame with data to be cleaned
     Returns: 
         life_exp (Pandas DataFrame): DataFrame with life expectancy cleaned data"""
 
@@ -108,7 +117,8 @@ def clean_data (life_exp_raw_data: pd.DataFrame):
     return life_exp
 
 def feature_cleaning(life_exp: pd.DataFrame):
-    """ Cleans the life expectancy data by renaming Columns and drop not necessary ones 
+    """ 
+    Cleans the life expectancy data by renaming Columns and drop not necessary ones 
 
     Args:
         life_exp(Pandas DataFrame): DataFrame with data to be cleaned
@@ -129,7 +139,7 @@ def filter_data(
         life_exp(Pandas DataFrame): DataFrame with data to be filtered
         region (Countries): String with region information
 
-    Returns: 
+    Returns:
         life_exp (Pandas DataFrame): DataFrame with life expectancy filtered data
     """
 

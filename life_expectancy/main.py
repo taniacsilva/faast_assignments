@@ -1,9 +1,7 @@
 """This is the main module"""
 from pathlib import Path
-
 import argparse
 import pandas as pd
-
 from life_expectancy.cleaning import filter_data, clean_data, feature_cleaning, Regions
 from life_expectancy.load_save_data import TSVFileReader, JSONFileReader, FileProcessor, save_data
 
@@ -18,7 +16,7 @@ def main(region: Regions = Regions.PT) -> pd.DataFrame:
     """
     Main function that load, cleans and save a cleaned version of the life expectancy data
     Args:
-        region (str): String with region information
+        region (Regions): Enum with region information
     """
     # Verify if the region is in the list of Contries and Regions
     if region.value not in Regions.__members__:

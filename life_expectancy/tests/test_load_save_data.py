@@ -13,7 +13,7 @@ script_dir = Path(__file__).resolve().parent
 
 
 
-def test_load_data_TSV(eu_life_expectancy_input_expected, input_file_path_test) -> None:
+def test_load_data_tsv(eu_life_expectancy_input_expected, input_file_path_test) -> None:
     """Run the `load_data` function and compare the raw data loaded to the expected raw data loaded
         Args:
             eu_life_expectancy_raw_expected (Fixture): load the expected raw data

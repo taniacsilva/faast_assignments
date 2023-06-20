@@ -2,7 +2,8 @@
 
 import pandas as pd
 
-from life_expectancy.cleaning import clean_data, filter_data, feature_cleaning, Regions
+from life_expectancy.cleaning import clean_data, filter_data, feature_cleaning
+from life_expectancy.countries import Region
 
 def test_cleaning_tsv(pt_life_expectancy_expected, eu_life_expectancy_input_expected):
     """Compare the output of the "clean_data" function to the expected output
@@ -16,7 +17,7 @@ def test_cleaning_tsv(pt_life_expectancy_expected, eu_life_expectancy_input_expe
 
     clean_data_output_actual = filter_data(
         clean_data_output_actual,
-        region = Regions.PT
+        region = Region.PT
     ).reset_index(drop=True)
 
     clean_data_output_expected = pt_life_expectancy_expected
@@ -37,7 +38,7 @@ def test_cleaning_zip(pt_life_expectancy_expected, eurostat_life_input_expect_zi
 
     clean_data_output_actual = filter_data(
         clean_data_output_actual,
-        region = Regions.PT
+        region = Region.PT
     ).reset_index(drop=True)
 
     clean_data_output_expected = pt_life_expectancy_expected
@@ -52,6 +53,6 @@ def test_obtain_countries_list(country_list_expected):
         Args:
             country_list_expected (Fixture): load the expected output of the function
     """
-    country_list_actual = Regions.obtain_countries_list()
+    country_list_actual = Region.obtain_countries_list()
 
     assert not set(country_list_actual) ^ set(country_list_expected)

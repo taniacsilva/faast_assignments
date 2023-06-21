@@ -1,5 +1,4 @@
 """This model loads and saves the data"""
-#pylint: disable=R0903
 
 from pathlib import Path
 from typing import Any, Protocol
@@ -60,7 +59,7 @@ class FileProcessor:
     def __init__(self, file_reader: FileReaderStrategy):
         self.file_reader = file_reader
 
-    def processor_file(self, file_path: Path):
+    def process_file(self, file_path: Path):
         """
         Processes the file and returns the data as a pandas DataFrame
         Args:

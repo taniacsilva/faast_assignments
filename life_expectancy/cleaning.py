@@ -39,7 +39,7 @@ def clean_data (life_exp_raw_data: pd.DataFrame):
 
     return life_exp
 
-def feature_cleaning(life_exp: pd.DataFrame):
+def rename_and_drop_cols(life_exp: pd.DataFrame):
     """ 
     Cleans the life expectancy data by renaming Columns and drop not necessary ones 
 

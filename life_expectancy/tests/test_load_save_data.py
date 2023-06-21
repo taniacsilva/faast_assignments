@@ -24,7 +24,7 @@ def test_load_data_tsv(eu_life_expectancy_input_expected, input_file_path_test) 
     file_processor = FileProcessor(file_reader)
 
     # Call the load_data function and get the result
-    eu_life_expectancy_input_actual = file_processor.processor_file(input_file_path_test)
+    eu_life_expectancy_input_actual = file_processor.process_file(input_file_path_test)
 
     pd.testing.assert_frame_equal(
         eu_life_expectancy_input_actual, eu_life_expectancy_input_expected
@@ -41,7 +41,7 @@ def test_load_data_zip(eurostat_life_input_expect_zip, input_file_path_test_zip)
     file_processor = FileProcessor(file_reader)
 
     # Call the load_data function and get the result
-    eu_life_expectancy_input_actual = file_processor.processor_file(input_file_path_test_zip)
+    eu_life_expectancy_input_actual = file_processor.process_file(input_file_path_test_zip)
 
     pd.testing.assert_frame_equal(
         eu_life_expectancy_input_actual, eurostat_life_input_expect_zip

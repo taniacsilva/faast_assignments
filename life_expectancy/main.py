@@ -2,7 +2,7 @@
 from pathlib import Path
 import argparse
 import pandas as pd
-from life_expectancy.cleaning import filter_data, clean_data, feature_cleaning
+from life_expectancy.cleaning import filter_data, clean_data, rename_and_drop_cols
 from life_expectancy.load_save_data import TSVFileReader, JSONFileReader, FileProcessor, save_data
 from life_expectancy.countries import Region
 
@@ -19,17 +19,15 @@ def main(region: Region = Region.PT) -> pd.DataFrame:
         region (Regions): Enum with region information
     """
     # Verify if the region is in the list of Contries and Regions
-    if region.value not in Region.__members__:
-        raise ValueError("This is an Invalid Country")
 
     file_reader = JSONFileReader()
     file_processor = FileProcessor(file_reader)
-    life_exp_raw_data = file_processor.processor_file(input_file_path_json)
+    life_exp_raw_data = file_processor.process_file(input_file_path_json)
 
     if isinstance(file_reader, TSVFileReader):
         life_exp = clean_data(life_exp_raw_data)
     else:
-        life_exp = feature_cleaning(life_exp_raw_data)
+        life_exp = rename_and_drop_cols(life_exp_raw_data)
 
     life_exp = filter_data(life_exp, region)
 

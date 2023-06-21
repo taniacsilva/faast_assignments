@@ -20,5 +20,8 @@ omit = [
     "*/conftest.py", "*/test*", # omit test files
 ]
 
+[tool.pylint.messages_control]
+disable = "R0903"
+
 [tool.coverage.report]
 fail_under = 80

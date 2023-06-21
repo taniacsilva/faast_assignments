@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-from life_expectancy.cleaning import clean_data, filter_data, feature_cleaning
+from life_expectancy.cleaning import clean_data, filter_data, rename_and_drop_cols
 from life_expectancy.countries import Region
 
 def test_cleaning_tsv(pt_life_expectancy_expected, eu_life_expectancy_input_expected):
@@ -34,7 +34,7 @@ def test_cleaning_zip(pt_life_expectancy_expected, eurostat_life_input_expect_zi
         Returns:
     """
     # Call the clean_data function and get the result
-    clean_data_output_actual = feature_cleaning(eurostat_life_input_expect_zip)
+    clean_data_output_actual = rename_and_drop_cols(eurostat_life_input_expect_zip)
 
     clean_data_output_actual = filter_data(
         clean_data_output_actual,

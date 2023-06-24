@@ -4,23 +4,29 @@ from pathlib import Path
 from typing import Any, Protocol
 import zipfile
 import pandas as pd
+from life_expectancy.cleaning import clean_data, rename_and_drop_cols
 
 
-class FileReaderStrategy(Protocol):
-    """Reads the file"""
+class FileHandlerStrategy(Protocol):
+    """Reads Aand Cleans the file"""
 
-    def __call__(self, file:Any):
+    def load_file(self, file:Any):
         """
         Reads the file and returns the data as a pandas DataFrame
         Args:
             file (Any): file object to read
         """
-        pass
+    def clean_file(self, file:Any):
+        """
+        Cleans data and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        """
 
-class TSVFileReader:
+class TSVFileHandler:
     """Reads the TSV File"""
 
-    def __call__(self, file:Any) -> pd.DataFrame:
+    def load_file(self, file:Any) -> pd.DataFrame:
         """
         Reads a TSV file and returns the data as a pandas DataFrame
         Args:
@@ -30,12 +36,24 @@ class TSVFileReader:
         """
 
         return pd.read_csv(file, sep= "\t")
+    
+    def clean_data(self, file: Any) -> pd.DataFrame:
+        """
+        Cleans data and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        Returns:
+            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""        
+        
+        cleaned_data = clean_data(file)
+
+        return cleaned_data
 
 
-class JSONFileReader:
+class JSONFileHandler:
     """Reads the JSON File"""
 
-    def __call__(self, file:Any) -> pd.DataFrame:
+    def load_file(self, file:Any) -> pd.DataFrame:
         """        
         Reads a JSON file and returns the data as a pandas DataFrame
         Args:
@@ -46,11 +64,23 @@ class JSONFileReader:
         with zipfile.ZipFile(file) as zip_file:
             with zip_file.open(zip_file.namelist()[0]) as json_file:
                 return pd.read_json(json_file)
+            
+    def clean_data(self, file: Any) -> pd.DataFrame:
+        """
+        Cleans data and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        Returns:
+            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""
+
+        cleaned_data = rename_and_drop_cols(file)
+
+        return cleaned_data
 
 
 class FileProcessor:
     """Processes the file using a FileReaderStrategy"""
-    def __init__(self, file_reader: FileReaderStrategy):
+    def __init__(self, file_reader: FileHandlerStrategy):
         self.file_reader = file_reader
 
     def process_file(self, file_path: Path):
@@ -62,7 +92,7 @@ class FileProcessor:
             pd.Dataframe: The data read from the file as a pandas DataFrame
         """
         with open(file_path, "rb") as file:
-            life_exp_raw_data = self.file_reader(file)
+            life_exp_raw_data = self.file_reader.load_file(file)
 
         return life_exp_raw_data
 

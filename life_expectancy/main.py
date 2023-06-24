@@ -2,8 +2,8 @@
 from pathlib import Path
 import argparse
 import pandas as pd
-from life_expectancy.cleaning import filter_data, clean_data, rename_and_drop_cols
-from life_expectancy.load_save_data import TSVFileReader, JSONFileReader, FileProcessor, save_data
+from life_expectancy.cleaning import filter_data
+from life_expectancy.load_save_data import JSONFileHandler, FileProcessor, save_data
 from life_expectancy.countries import Region
 
 script_dir = Path(__file__).resolve().parent
@@ -20,15 +20,12 @@ def main(region: Region = Region.PT) -> pd.DataFrame:
     """
     # Verify if the region is in the list of Contries and Regions
 
-    file_reader = JSONFileReader()
-    file_processor = FileProcessor(file_reader)
+    file_handler = JSONFileHandler()
+    file_processor = FileProcessor(file_handler)
     life_exp_raw_data = file_processor.process_file(input_file_path_json)
 
-    if isinstance(file_reader, TSVFileReader):
-        life_exp = clean_data(life_exp_raw_data)
-    else:
-        life_exp = rename_and_drop_cols(life_exp_raw_data)
-
+    life_exp = file_handler.clean_data(life_exp_raw_data)
+    
     life_exp = filter_data(life_exp, region)
 
     save_data(life_exp, output_file_path)

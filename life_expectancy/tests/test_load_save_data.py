@@ -6,11 +6,10 @@ from pytest import MonkeyPatch
 
 import pandas as pd
 
-from life_expectancy.load_save_data import TSVFileReader, JSONFileReader, FileProcessor, save_data
+from life_expectancy.load_save_data import TSVFileHandler, JSONFileHandler, FileProcessor, save_data
 
 
 script_dir = Path(__file__).resolve().parent
-
 
 
 def test_load_data_tsv(eu_life_expectancy_input_expected, input_file_path_test) -> None:
@@ -20,8 +19,8 @@ def test_load_data_tsv(eu_life_expectancy_input_expected, input_file_path_test) 
             input_file_path_test (Fixture):  Fixture for the path to the test file to be loaded
         Returns: 
     """
-    file_reader = TSVFileReader()
-    file_processor = FileProcessor(file_reader)
+    file_handler = TSVFileHandler()
+    file_processor = FileProcessor(file_handler)
 
     # Call the load_data function and get the result
     eu_life_expectancy_input_actual = file_processor.process_file(input_file_path_test)
@@ -37,8 +36,8 @@ def test_load_data_zip(eurostat_life_input_expect_zip, input_file_path_test_zip)
             input_file_path_test_zip (Fixture):  Fixture for the path to the test file to be loaded
         Returns: 
     """
-    file_reader = JSONFileReader()
-    file_processor = FileProcessor(file_reader)
+    file_handler = JSONFileHandler()
+    file_processor = FileProcessor(file_handler)
 
     # Call the load_data function and get the result
     eu_life_expectancy_input_actual = file_processor.process_file(input_file_path_test_zip)

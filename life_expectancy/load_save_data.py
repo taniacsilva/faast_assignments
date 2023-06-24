@@ -9,19 +9,13 @@ import pandas as pd
 class FileReaderStrategy(Protocol):
     """Reads the file"""
 
-    def __call__(self, file:Any) -> pd.DataFrame:
+    def __call__(self, file:Any):
         """
         Reads the file and returns the data as a pandas DataFrame
         Args:
             file (Any): file object to read
-        Returns:
-            pd.DataFrame: The data read from the file as a pandas DataFrame
-        Raises:
-            NotImplementedError: This is a protocol method, so must be implemented by subclasses
         """
-
-        raise NotImplementedError("This method should be implemented by subclasses")
-
+        pass
 
 class TSVFileReader:
     """Reads the TSV File"""

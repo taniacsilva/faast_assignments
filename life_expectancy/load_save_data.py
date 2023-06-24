@@ -43,7 +43,7 @@ class TSVFileHandler:
         Args:
             file (Any): file object to read
         Returns:
-            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""     
+            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""
 
         cleaned_data = clean_data(file)
 

@@ -36,15 +36,15 @@ class TSVFileHandler:
         """
 
         return pd.read_csv(file, sep= "\t")
-    
+
     def clean_data(self, file: Any) -> pd.DataFrame:
         """
         Cleans data and returns the data as a pandas DataFrame
         Args:
             file (Any): file object to read
         Returns:
-            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""        
-        
+            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""     
+
         cleaned_data = clean_data(file)
 
         return cleaned_data
@@ -64,7 +64,7 @@ class JSONFileHandler:
         with zipfile.ZipFile(file) as zip_file:
             with zip_file.open(zip_file.namelist()[0]) as json_file:
                 return pd.read_json(json_file)
-            
+
     def clean_data(self, file: Any) -> pd.DataFrame:
         """
         Cleans data and returns the data as a pandas DataFrame

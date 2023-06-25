@@ -3,7 +3,6 @@
 import pandas as pd
 import pytest
 from pathlib import Path
-import zipfile
 
 from . import FIXTURES_DIR, OUTPUT_DIR
 

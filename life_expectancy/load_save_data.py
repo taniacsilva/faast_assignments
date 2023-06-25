@@ -2,7 +2,6 @@
 
 from pathlib import Path
 from typing import Any, Protocol
-import zipfile
 import pandas as pd
 from life_expectancy.cleaning import clean_data, rename_and_drop_cols
 

@@ -3,7 +3,7 @@ from pathlib import Path
 import argparse
 import pandas as pd
 from life_expectancy.cleaning import filter_data
-from life_expectancy.load_save_data import JSONFileHandler, FileProcessor, save_data
+from life_expectancy.load_save_data import JSONFileHandler, save_data
 from life_expectancy.countries import Region
 
 script_dir = Path(__file__).resolve().parent
@@ -21,13 +21,9 @@ def main(region: Region = Region.PT) -> pd.DataFrame:
     # Verify if the region is in the list of Contries and Regions
 
     file_handler = JSONFileHandler()
-    file_processor = FileProcessor(file_handler)
-    life_exp_raw_data = file_processor.process_file(input_file_path_json)
-
+    life_exp_raw_data = file_handler.load_file(input_file_path_json)
     life_exp = file_handler.clean_data(life_exp_raw_data)
-
     life_exp = filter_data(life_exp, region)
-
     save_data(life_exp, output_file_path)
 
     return life_exp

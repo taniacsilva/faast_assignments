@@ -54,9 +54,8 @@ def country_list_expected() -> list:
 @pytest.fixture()
 def eurostat_life_input_expect_zip() -> pd.DataFrame:
     """Fixture to load the expected raw data from json file"""
-    with zipfile.ZipFile(FIXTURES_DIR/"eurostat_life_expect.zip") as zip_file:
-        with zip_file.open(zip_file.namelist()[0]) as json_file:
-            return pd.read_json(json_file)
+    json_file_path = FIXTURES_DIR/"eurostat_life_expect.zip"
+    return pd.read_json(json_file_path)
 
 @pytest.fixture()
 def input_file_path_test_zip() -> Path:

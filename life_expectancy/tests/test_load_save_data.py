@@ -6,7 +6,7 @@ from pytest import MonkeyPatch
 
 import pandas as pd
 
-from life_expectancy.load_save_data import TSVFileHandler, JSONFileHandler, FileProcessor, save_data
+from life_expectancy.load_save_data import TSVFileHandler, JSONFileHandler, save_data
 
 
 script_dir = Path(__file__).resolve().parent
@@ -20,10 +20,9 @@ def test_load_data_tsv(eu_life_expectancy_input_expected, input_file_path_test) 
         Returns: 
     """
     file_handler = TSVFileHandler()
-    file_processor = FileProcessor(file_handler)
 
     # Call the load_data function and get the result
-    eu_life_expectancy_input_actual = file_processor.process_file(input_file_path_test)
+    eu_life_expectancy_input_actual = file_handler.load_file(input_file_path_test)
 
     pd.testing.assert_frame_equal(
         eu_life_expectancy_input_actual, eu_life_expectancy_input_expected
@@ -37,10 +36,9 @@ def test_load_data_zip(eurostat_life_input_expect_zip, input_file_path_test_zip)
         Returns: 
     """
     file_handler = JSONFileHandler()
-    file_processor = FileProcessor(file_handler)
 
     # Call the load_data function and get the result
-    eu_life_expectancy_input_actual = file_processor.process_file(input_file_path_test_zip)
+    eu_life_expectancy_input_actual = file_handler.load_file(input_file_path_test_zip)
 
     pd.testing.assert_frame_equal(
         eu_life_expectancy_input_actual, eurostat_life_input_expect_zip

@@ -61,9 +61,7 @@ class JSONFileHandler:
         Returns:
             pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""
 
-        with zipfile.ZipFile(file) as zip_file:
-            with zip_file.open(zip_file.namelist()[0]) as json_file:
-                return pd.read_json(json_file)
+        return pd.read_json(file, compression="infer")
 
     def clean_data(self, file: Any) -> pd.DataFrame:
         """
@@ -76,25 +74,6 @@ class JSONFileHandler:
         cleaned_data = rename_and_drop_cols(file)
 
         return cleaned_data
-
-
-class FileProcessor:
-    """Processes the file using a FileReaderStrategy"""
-    def __init__(self, file_reader: FileHandlerStrategy):
-        self.file_reader = file_reader
-
-    def process_file(self, file_path: Path):
-        """
-        Processes the file and returns the data as a pandas DataFrame
-        Args:
-            file_path (Path): The path to the file to process 
-        Returns:
-            pd.Dataframe: The data read from the file as a pandas DataFrame
-        """
-        with open(file_path, "rb") as file:
-            life_exp_raw_data = self.file_reader.load_file(file)
-
-        return life_exp_raw_data
 
 
 def save_data(

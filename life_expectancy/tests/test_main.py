@@ -5,7 +5,7 @@ from pytest import MonkeyPatch
 import pandas as pd
 
 from life_expectancy.main import main
-
+from life_expectancy.countries import Region
 
 
 def test_main(pt_life_expectancy_expected, monkeypatch: MonkeyPatch):
@@ -20,11 +20,14 @@ def test_main(pt_life_expectancy_expected, monkeypatch: MonkeyPatch):
     def mock_to_csv(*args, **kwargs):
         print("Data saved successfully")
 
+    # Create and empty dataframe
+    data = pd.DataFrame()
+
     # Patch pd.DataFrame.to_csv to return the mock function instead of the real one
-    monkeypatch.setattr(pd.DataFrame, 'to_csv', mock_to_csv)
+    monkeypatch.setattr(data, 'to_csv', mock_to_csv)
 
     # Call the main function and get the result
-    pt_life_expectancy_actual = main(region = 'PT').reset_index(drop=True)
+    pt_life_expectancy_actual = main(region=Region.PT).reset_index(drop=True)
 
     pd.testing.assert_frame_equal(
         pt_life_expectancy_actual, pt_life_expectancy_expected

@@ -6,26 +6,43 @@ from pytest import MonkeyPatch
 
 import pandas as pd
 
-from life_expectancy.load_save_data import load_data, save_data
+from life_expectancy.load_save_data import TSVFileHandler, JSONFileHandler, save_data
 
 
 script_dir = Path(__file__).resolve().parent
 
 
-def test_load_data(eu_life_expectancy_input_expected, input_file_path_test) -> None:
+def test_load_data_tsv(eu_life_expectancy_input_expected, input_file_path_test) -> None:
     """Run the `load_data` function and compare the raw data loaded to the expected raw data loaded
         Args:
             eu_life_expectancy_raw_expected (Fixture): load the expected raw data
             input_file_path_test (Fixture):  Fixture for the path to the test file to be loaded
         Returns: 
     """
+    file_handler = TSVFileHandler()
+
     # Call the load_data function and get the result
-    eu_life_expectancy_input_actual = load_data(input_file_path_test)
+    eu_life_expectancy_input_actual = file_handler.load_file(input_file_path_test)
 
     pd.testing.assert_frame_equal(
         eu_life_expectancy_input_actual, eu_life_expectancy_input_expected
     )
 
+def test_load_data_zip(eurostat_life_input_expect_zip, input_file_path_test_zip) -> None:
+    """Run the `load_data` function and compare the raw data loaded to the expected raw data loaded
+        Args:
+            eu_life_expectancy_raw_expected_zip (Fixture): load the expected raw data
+            input_file_path_test_zip (Fixture):  Fixture for the path to the test file to be loaded
+        Returns: 
+    """
+    file_handler = JSONFileHandler()
+
+    # Call the load_data function and get the result
+    eu_life_expectancy_input_actual = file_handler.load_file(input_file_path_test_zip)
+
+    pd.testing.assert_frame_equal(
+        eu_life_expectancy_input_actual, eurostat_life_input_expect_zip
+    )
 
 def test_save_data(
         monkeypatch: MonkeyPatch,
@@ -48,7 +65,7 @@ def test_save_data(
         print("Data saved successfully")
 
     # Patch pd.DataFrame.to_csv to return the mock function instead of the real one
-    monkeypatch.setattr(pd.DataFrame, 'to_csv', mock_to_csv)
+    monkeypatch.setattr(data, 'to_csv', mock_to_csv)
 
     # Call the save_data function and get the result
     save_data(data, output_file_path_test)

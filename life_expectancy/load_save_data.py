@@ -1,23 +1,78 @@
 """This model loads and saves the data"""
+
 from pathlib import Path
-
+from typing import Any, Protocol
 import pandas as pd
+from life_expectancy.cleaning import clean_data, rename_and_drop_cols
 
 
-def load_data(
-        input_file_path: Path
-    ) -> pd.DataFrame:
-    """
-    Load eu_life_expectancy_raw.tsv data from the data folder
-    Args:
-        input_file_path (Path): Path for the file to be loaded
-    Returns:
-        life_exp_raw_data (Pandas DataFrame): DataFrame with data to be cleaned
-    """
-    with open(input_file_path, "r", encoding="UTF-8") as file:
-        life_exp_raw_data = pd.read_csv(file, sep="\t")
+class FileHandlerStrategy(Protocol):
+    """Reads Aand Cleans the file"""
 
-    return life_exp_raw_data
+    def load_file(self, file:Any):
+        """
+        Reads the file and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        """
+    def clean_file(self, file:Any):
+        """
+        Cleans data and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        """
+
+class TSVFileHandler:
+    """Reads the TSV File"""
+
+    def load_file(self, file:Any) -> pd.DataFrame:
+        """
+        Reads a TSV file and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        Returns:
+            pd.DataFrame: The data read from the TSV file as a pandas DataFrame
+        """
+
+        return pd.read_csv(file, sep= "\t")
+
+    def clean_data(self, file: Any) -> pd.DataFrame:
+        """
+        Cleans data and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        Returns:
+            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""
+
+        cleaned_data = clean_data(file)
+
+        return cleaned_data
+
+
+class JSONFileHandler:
+    """Reads the JSON File"""
+
+    def load_file(self, file:Any) -> pd.DataFrame:
+        """        
+        Reads a JSON file and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        Returns:
+            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""
+
+        return pd.read_json(file, compression="infer")
+
+    def clean_data(self, file: Any) -> pd.DataFrame:
+        """
+        Cleans data and returns the data as a pandas DataFrame
+        Args:
+            file (Any): file object to read
+        Returns:
+            pd.DataFrame: The data read from the JSON file as a pandas DataFrame"""
+
+        cleaned_data = rename_and_drop_cols(file)
+
+        return cleaned_data
 
 
 def save_data(

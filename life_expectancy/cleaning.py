@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from life_expectancy.countries import Region
 
-def clean_data (life_exp_raw_data: pd.DataFrame):
+def clean_data (life_exp_raw_data: pd.DataFrame) -> pd.DataFrame:
     """
     Cleans the life expectancy data by unpivot the years to long format and
     ensure year is an integer and value is a float type

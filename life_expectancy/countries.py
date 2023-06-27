@@ -1,6 +1,7 @@
 """This module contains enumerates the possible entries for region """
 from enum import Enum
 from pathlib import Path
+from typing import List
 
 script_dir = Path(__file__).resolve().parent
 input_file_path_tsv= script_dir/"data"/"eu_life_expectancy_raw.tsv"
@@ -66,7 +67,7 @@ class Region(Enum):
     EEA30_2007 = 'EEA30_2007'
 
     @staticmethod
-    def obtain_countries_list():
+    def obtain_countries_list() -> List[str]:
         "Return list of actual countries"
         regions_only = [
             'EFTA',
